@@ -34,13 +34,13 @@ The system is designed for:
 
 (Insert short GIF here)
 
-```markdown
+
 ![ROMAI Demo](docs/demo.gif)
-```
+
 
 Full demonstration video:
 
-[Watch Full Demo on YouTube](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+[Watch Full Demo on YouTube](https://youtu.be/LVpVHAe3rAk)
 
 ---
 
@@ -68,9 +68,9 @@ Interpretation:
 
 (Insert figure here)
 
-```markdown
+
 ![Bland-Altman Plot](docs/bland_altman.png)
-```
+
 
 Key Findings:
 
