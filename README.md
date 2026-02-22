@@ -1,134 +1,154 @@
-# romai
-Reliability and Validity of Artificial Intelligence-Based Pose Estimation in Measuring Joint Range of Motion
+다음은 GitHub 리포지토리용으로 정리·개선한 README 초안이다. 중복 설명을 제거하고, 구조를 단순화했으며, 기술 문서 스타일에 맞춰 다듬었다.
 
-Automated 2D Pose Estimation & Joint Angle Analysis Pipeline (MMpose-based)
-Overview
-This project provides an automated pipeline for 2D human pose estimation and joint angle analysis using MMpose.
-You can easily extract poses from videos and automatically calculate joint angles, making it useful for sports, rehabilitation, research, and more.
+---
 
-Features
-2D Human Pose Estimation: Accurate keypoint detection using state-of-the-art MMpose models
+# ROMAI
 
-Automatic Joint Angle Calculation: Computes key joint angles from detected keypoints
+**Reliability and Validity of Artificial Intelligence-Based Pose Estimation in Measuring Joint Range of Motion**
 
-Batch Video Processing: Analyze multiple video files at once
+ROMAI is an automated 2D human pose estimation and joint angle analysis pipeline built on **MMpose**. It extracts body keypoints from video and computes joint range of motion (ROM) automatically. The pipeline is designed for applications in sports science, rehabilitation, biomechanics research, and clinical assessment.
 
-Google Colab Support: No complex setup—run directly in Colab
+---
 
-Requirements
-Python 3.8 or higher
+## Overview
 
-CUDA 11.3 or higher (for GPU acceleration)
+This project provides a streamlined workflow for:
 
-For detailed package and installation instructions, see Requirements.
+• 2D human pose estimation
+• Automated joint angle calculation
+• Batch video processing
+• Google Colab-based execution (no complex local setup required)
 
-Installation (Google Colab Only)
-Copy and run the following in the first cell of your Colab notebook:
+The system is based on the OpenMMLab ecosystem, including MMpose, MMDetection, and MMCV.
 
-python
-# Install required packages
+---
+
+## Key Features
+
+### 1. 2D Human Pose Estimation
+
+High-accuracy keypoint detection using state-of-the-art MMpose models.
+
+### 2. Automatic Joint Angle Calculation
+
+Joint angles are computed directly from detected keypoints using geometric vector calculations.
+
+### 3. Batch Video Processing
+
+Multiple video files can be processed sequentially with a single command.
+
+### 4. Google Colab Support
+
+Fully executable in Google Colab with GPU acceleration support.
+
+---
+
+## System Requirements
+
+• Python ≥ 3.8
+• CUDA ≥ 11.3 (GPU recommended)
+• Google Colab environment (recommended configuration)
+
+For GPU acceleration in Colab, ensure runtime is set to **GPU**.
+
+---
+
+## Installation (Google Colab Only)
+
+Run the following in the first cell of your Colab notebook:
+
+```python
+# PyTorch (CUDA 11.8 build compatible with Colab)
 !pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
-!pip uninstall -y jax jaxlib
+
+# Clean conflicting packages
+!pip uninstall -y jax jaxlib transformers accelerate torchao
+
+# Core dependencies
 !pip install numpy==1.24.4 pandas==1.5.3 scipy==1.10.1 requests==2.28.2 tqdm==4.65.2 filelock==3.14.0
-!pip uninstall -y transformers accelerate torchao
 !pip install transformers==4.30.2
+
+# OpenMMLab installation
 !pip install -U openmim
 !mim uninstall mmengine mmcv mmdet mmpose -y
 !mim install mmengine
 !pip install mmcv==2.0.1 -f https://download.openmmlab.com/mmcv/dist/cu118/torch2.0/index.html
 !mim install "mmdet<3.3.0"
 !mim install "mmpose>=1.1.0"
+
+# Clone repository
 !git clone https://github.com/open-mmlab/mmpose.git
 %cd mmpose
 !pip install -r requirements.txt
 !pip install -v -e .
 %cd /content
-After installation, restart the Colab runtime.
+```
 
-Usage
-Prepare your videos: Place video files in your Colab working directory or Google Drive.
+After installation, **restart the Colab runtime** before proceeding.
 
-Run the main pipeline script (replace with your actual script name):
+---
 
-python
+## Usage
+
+### 1. Prepare Video Files
+
+Upload videos to the Colab working directory or mount Google Drive.
+
+### 2. Run the Main Pipeline
+
+Replace the script name if different:
+
+```bash
 python run_pose_estimation.py --input your_video.mp4 --output output_folder/
-Results: Keypoint data and joint angle analysis will be saved in the specified output folder.
+```
 
-Troubleshooting
-If you encounter errors due to package version mismatches or missing installations, please rerun the installation script above.
+### 3. Output
 
-In Colab, make sure to restart the runtime after installation to ensure proper operation.
+The output directory will contain:
 
-References
-MMpose Documentation
+• Extracted keypoint data
+• Computed joint angle results
+• (Optional) Processed visualization video
 
-OpenMMLab GitHub
+---
 
-License
+## Output Structure Example
+
+```
+output_folder/
+├── keypoints.json
+├── joint_angles.csv
+└── visualization.mp4
+```
+
+---
+
+## Troubleshooting
+
+• If dependency conflicts occur, rerun the installation block.
+• Always restart the runtime after installation.
+• Ensure GPU runtime is enabled in Colab.
+
+---
+
+## Applications
+
+• Clinical range of motion assessment
+• Rehabilitation outcome tracking
+• Sports biomechanics analysis
+• Movement research automation
+
+---
+
+## References
+
+• MMpose Documentation: [https://mmpose.readthedocs.io](https://mmpose.readthedocs.io)
+• OpenMMLab GitHub: [https://github.com/open-mmlab](https://github.com/open-mmlab)
+
+---
+
+## License
+
 This project is licensed under the MIT License.
 
-MMpose 기반 2D 포즈 추정 및 관절 각도 분석 자동화 파이프라인
-개요
-이 프로젝트는 MMpose를 활용한 2D 인체 포즈 추정 및 관절 각도 자동 분석 파이프라인입니다.
-비디오에서 손쉽게 포즈를 추출하고, 관절 각도를 자동으로 계산할 수 있어 스포츠, 재활, 연구 등 다양한 분야에 활용할 수 있습니다.
-
-주요 기능
-2D 인체 포즈 추정: 최신 MMpose 모델을 활용한 정확한 관절 키포인트 검출
-
-관절 각도 자동 계산: 검출된 키포인트로부터 주요 관절 각도를 자동 산출
-
-배치 비디오 처리: 여러 개의 비디오 파일을 한 번에 분석 가능
-
-Google Colab 지원: 별도의 환경 설정 없이 Colab에서 바로 사용 가능
-
-요구사항
-Python 3.8 이상
-
-CUDA 11.3 이상 (GPU 사용 시)
-
-자세한 패키지 및 설치 방법은 Requirements 문서를 참고하세요.
-
-설치 방법 (Google Colab 전용)
-Colab 노트북의 첫 번째 셀에 아래 코드를 복사해서 실행하세요.
-
-python
-# 필수 패키지 설치
-!pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
-!pip uninstall -y jax jaxlib
-!pip install numpy==1.24.4 pandas==1.5.3 scipy==1.10.1 requests==2.28.2 tqdm==4.65.2 filelock==3.14.0
-!pip uninstall -y transformers accelerate torchao
-!pip install transformers==4.30.2
-!pip install -U openmim
-!mim uninstall mmengine mmcv mmdet mmpose -y
-!mim install mmengine
-!pip install mmcv==2.0.1 -f https://download.openmmlab.com/mmcv/dist/cu118/torch2.0/index.html
-!mim install "mmdet<3.3.0"
-!mim install "mmpose>=1.1.0"
-!git clone https://github.com/open-mmlab/mmpose.git
-%cd mmpose
-!pip install -r requirements.txt
-!pip install -v -e .
-%cd /content
-설치가 완료되면 Colab 런타임을 재시작하세요.
-
-사용법
-분석할 비디오 준비: Google Drive 또는 Colab 작업 디렉토리에 비디오 파일을 준비합니다.
-
-메인 파이프라인 스크립트 실행 (실제 스크립트명으로 변경):
-
-python
-python run_pose_estimation.py --input your_video.mp4 --output output_folder/
-결과 확인: 지정한 output 폴더에 키포인트 데이터와 관절 각도 분석 결과가 저장됩니다.
-
-트러블슈팅
-패키지 버전 불일치, 미설치 오류 발생 시 위 설치 스크립트를 다시 실행하세요.
-
-Colab에서는 설치 후 반드시 런타임을 재시작해야 정상 동작합니다.
-
-참고 자료
-MMpose 공식 문서
-
-OpenMMLab GitHub
-
-라이선스
-본 프로젝트는 MIT 라이선스를 따릅니다.
+---
