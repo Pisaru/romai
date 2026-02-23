@@ -31,9 +31,9 @@ If you want an animated preview inside README, use a short GIF (`docs/demo.gif`)
 
 Embedded preview (if you keep `docs/demo.gif`):
 
-```markdown
+
 ![ROMAI Demo](docs/demo.gif)
-```
+
 
 Full demonstration video (hosted):
 [Watch Full Demo on YouTube](https://youtu.be/LVpVHAe3rAk)
@@ -68,15 +68,13 @@ The validation study and numerical results are summarized below (detailed method
 * Pearson r range: **0.593 – 0.646** (all p < .01)
 * Interpretation: moderate to strong linear association
 
-### Bland–Altman (Goniometer vs Pose Estimation)
-
-A combined Bland–Altman figure including Flexion / Extension / Abduction panels is available as a single image: `docs/bland_altman.png`.
+### Bland–Altman (Goniometer vs Pose Estimation) 
 
 * Mean difference (bias): **−1.03° to 3.32°** (movement-dependent)
 * 95% Limits of Agreement (LoA) width: approx **±10–12°**
 * Interpretation: small average bias; LoA acceptable for group-level inference but individual differences may reach ±10°.
 
-(If you prefer separate per-joint images, add `docs/bland_altman_flexion.png` etc.; currently all three are combined in `docs/bland_altman.png`.)
+![Bland–Altman figure including Flexion / Extension / Abduction](docs/bland_altman.png)
 
 ### Goniometer vs IMU (summary)
 
