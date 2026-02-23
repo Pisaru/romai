@@ -176,5 +176,3 @@ in Measuring Joint Range of Motion. Journal Name. Year.
 MIT License
 
 ---
-
-어느 방향으로 갈지 정하면 그 스타일에 맞게 다시 최적화해주겠다.
