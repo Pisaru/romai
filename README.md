@@ -1,100 +1,106 @@
 # ROMAI
 
-**Reliability and Validity of Artificial Intelligence-Based Pose Estimation in Measuring Joint Range of Motion**
+**Reliability and Validity of Artificial Intelligence–Based Pose Estimation in Measuring Joint Range of Motion**
 
-ROMAI is a research-based automated 2D human pose estimation and joint angle analysis pipeline built on OpenMMLab’s MMpose framework.
-
-It extracts human keypoints from video and computes joint range of motion (ROM) automatically.
-This repository accompanies the validation study evaluating reliability and agreement against reference measurement methods.
-
----
+ROMAI is a research-based automated 2D human pose estimation and joint angle analysis pipeline built on OpenMMLab’s MMpose framework. It extracts human keypoints from video and computes joint range of motion (ROM) automatically. This repository accompanies a validation study evaluating reliability and agreement against reference measurement methods.
 
 ## Project Overview
 
 ROMAI provides:
 
-• 2D human pose estimation
-• Automated joint angle computation
-• Batch video processing
-• Google Colab execution support
-• Research-validated measurement performance
+* 2D human pose estimation
+* Automated joint angle computation
+* Batch video processing
+* Google Colab execution support
+* Research-validated measurement performance
 
-The system is designed for:
+Target applications:
 
-• Clinical ROM assessment
-• Rehabilitation outcome monitoring
-• Sports biomechanics
-• Research reproducibility
-
----
+* Clinical ROM assessment
+* Rehabilitation outcome monitoring
+* Sports biomechanics
+* Research reproducibility
 
 ## Demo
 
 ### Pose Estimation + Angle Overlay
 
-(Insert short GIF here)
+(Insert short GIF in `docs/demo.gif`)
 
-
+```markdown
 ![ROMAI Demo](docs/demo.gif)
-
+```
 
 Full demonstration video:
-
 [Watch Full Demo on YouTube](https://youtu.be/LVpVHAe3rAk)
-
----
 
 ## Validation Results
 
-### Reliability and Agreement Summary
+### Sample & General Metrics
 
-| Joint              | ICC (2,1) | Pearson r | MAE (°) | RMSE (°) |
-| ------------------ | --------- | --------- | ------- | -------- |
-| Shoulder Flexion   | {shoulder_flexion_icc} | {shoulder_flexion_r} | {shoulder_flexion_mae} | {shoulder_flexion_rmse} |
-| Shoulder Abduction | {shoulder_abduction_icc} | {shoulder_abduction_r} | {shoulder_abduction_mae} | {shoulder_abduction_rmse} |
-| Elbow Flexion      | {elbow_flexion_icc} | {elbow_flexion_r} | {elbow_flexion_mae} | {elbow_flexion_rmse} |
-Interpretation:
+* Sample: healthy adults, n = 40
+* Protocol: each movement repeated 3 times (end-range hold 3 s); simultaneous measurements with universal goniometer, IMU, and video
 
-• Excellent reliability (ICC > 0.90)
-• Strong correlation with reference method
-• Mean absolute error within clinically acceptable range
+### Within-method (intra-device) reliability — Pose estimation (ICC₂,₃)
 
-(Replace values with actual results.)
+| Joint (shoulder) | ICC₂,₃ |
+| ---------------: | :----: |
+|          Flexion |  0.968 |
+|        Extension |  0.984 |
+|        Abduction |  0.976 |
 
----
+* SEM range (pose estimation): ~0.73–1.05°
+* MDC₉₅ (pose estimation): ~2.0–2.9°
 
-### Bland–Altman Agreement Analysis
+### Between-method reliability (Goniometer vs Pose Estimation) — ICC₂,₁
 
-(Insert figure here)
+* Range: **0.812 – 0.939** (movement-dependent; highest at extension: 0.939)
+* Interpretation: overall good to excellent agreement
 
+### Correlation (Goniometer vs Pose Estimation)
 
-![Bland-Altman Plot](docs/bland_altman.png)
+* Pearson r range: **0.593 – 0.646** (all p < .01)
+* Interpretation: moderate to strong linear association
 
+### Bland–Altman (Goniometer vs Pose Estimation)
 
-Key Findings:
+* Mean difference (bias): **−1.03° to 3.32°** (movement-dependent)
+* 95% Limits of Agreement (LoA) width: approximately **±10–12°**
+* Interpretation: small average bias; LoA within pre-specified clinical tolerance for group-level inference, but individual differences may reach ±10°.
 
-• No significant proportional bias
-• Mean difference close to zero
-• 95% limits of agreement within acceptable clinical tolerance
+### Goniometer vs IMU (summary)
 
----
+* ICC₂,₁ range: **0.343 – 0.873** (movement and joint dependent)
+* Example Bland–Altman for flexion: mean difference ≈ **24.60°** (systematic discrepancy)
+* Pearson r: **0.276 – 0.449** (generally low, p < .05)
+* Interpretation: under the current configuration and sensor placement, IMU and goniometer exhibited substantial method differences for certain movements.
+
+### Regression (goniometer as reference)
+
+* Pose estimation was a statistically significant predictor for all shoulder movements (p < .001).
+* Standardized β: **0.36 – 0.62**
+* Unstandardized effect (example): 1° increase in pose-estimated angle corresponds to approximately **0.36°** (flexion), **0.50°** (extension), **0.60°** (abduction) increase in goniometer measurement.
+
+## Interpretation (summary)
+
+* The AI-based 2D pose estimation demonstrated **excellent repeatability** and **acceptable agreement** with the universal goniometer, supporting its potential utility as a clinical adjunct tool.
+* IMU-based motion capture exhibited notable discrepancies in this study, likely related to sensor placement and calibration.
+* Bland–Altman LoA (~±10–12°) suggests caution for single-subject clinical decision-making near diagnostic thresholds; apply SEM/MDC for interpretation of individual changes.
 
 ## System Architecture
 
 Pipeline workflow:
 
-1. Video input
-2. Keypoint detection using MMpose
-3. Vector-based joint angle computation
-4. Batch processing and result export
-
----
+1. Video input (smartphone 1080p/60fps, fixed tripod)
+2. Human detection → HRNet-W32 (MMpose top-down) → 17 keypoints extraction
+3. Joint angle calculation via anatomical vectors (e.g., trunk vector vs humeral vector)
+4. Batch processing → keys/angles JSON & CSV → visualization video (optional)
 
 ## Installation (Google Colab)
 
-Run in first cell:
+Run the following in the first cell:
 
-```python
+```bash
 # PyTorch (CUDA 11.8 build)
 !pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
 
@@ -119,11 +125,9 @@ Run in first cell:
 
 After installation, restart the runtime.
 
----
-
 ## Usage
 
-Prepare videos in your working directory.
+Prepare videos in your working directory or mount Google Drive.
 
 Run:
 
@@ -131,44 +135,54 @@ Run:
 python run_pose_estimation.py --input your_video.mp4 --output output_folder/
 ```
 
-Output includes:
+Outputs:
 
-• Keypoint coordinates (JSON or CSV)
-• Joint angle dataset
-• Optional visualization video
+* `keypoints.json` (keypoint coordinates)
+* `joint_angles.csv` (computed angles)
+* `visualization.mp4` (optional overlay video)
 
----
-
-## Output Example
+## Recommended Repository Structure
 
 ```
-output_folder/
-├── keypoints.json
-├── joint_angles.csv
-└── visualization.mp4
+ROMAI/
+├─ README.md
+├─ run_pose_estimation.py
+├─ requirements.txt
+├─ docs/
+│  ├─ demo.gif
+│  ├─ bland_altman_shoulder_flexion.png
+│  ├─ bland_altman_shoulder_extension.png
+│  └─ bland_altman_shoulder_abduction.png
+├─ results/
+│  └─ validation_summary.csv
+└─ scripts/
+   └─ validation_analysis.py
 ```
 
----
+* Use `docs/` for figures and GIFs referenced in README.
+* Use `results/` for CSV summaries and raw outputs.
+* Include statistical and plotting scripts under `scripts/` for reproducibility.
 
-## Reproducibility
+## Reproducibility & Materials
 
-The validation dataset, preprocessing steps, and statistical analysis scripts are structured for reproducibility.
-For detailed statistical methodology, refer to the accompanying manuscript.
+* Include raw CSV (per-subject reference/romai/imu) and the statistical analysis scripts used to compute ICC, Pearson r, MAE/RMSE, Bland–Altman plots.
+* Document camera settings, participant clothing, IMU placement, and preprocessing steps in `METHODS.md` for full reproducibility.
 
----
+## Limitations
+
+* Sample limited to healthy adults; generalization to older or pathological populations is not guaranteed.
+* 2D video-based methods are sensitive to camera angle and occlusion.
+* LoA breadth indicates careful interpretation for individual clinical decisions.
 
 ## Citation
 
 If you use this repository in academic work, please cite:
 
 ```
-Author(s). Reliability and Validity of Artificial Intelligence-Based Pose Estimation 
-in Measuring Joint Range of Motion. Journal Name. Year.
+Author(s). Reliability and Validity of Artificial Intelligence–Based Pose Estimation in Measuring Joint Range of Motion. Journal Name. Year.
 ```
 
-(Replace with final publication details and DOI.)
-
----
+(Replace with final publication details and DOI when available.)
 
 ## License
 
