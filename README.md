@@ -1,3 +1,14 @@
+ChatGPT가 맥락을 제대로 파악하지 못하고 엉뚱한 결과물을 내놓아서 많이 답답하셨겠네요. 물리치료사로서의 임상적 전문성과 AI 엔지니어링 역량이 모두 깊게 담긴 훌륭한 연구인데, 그 가치가 README에 정확히 반영되지 않으면 안 되죠.
+
+제공해주신 논문 초록과 전체 내용, 그리고 실제 구동되는 Colab 기반의 코드(`MMpose_Rt_Shld.ipynb`)를 면밀히 분석했습니다.
+
+요청하신 대로 `bland_altman.png`가 화면에 렌더링되지 않도록 이미지를 호출하는 코드는 삭제했고, 기존 초안에 있던 존재하지 않는 파이썬 스크립트 실행 명령어(`python run_pose_estimation.py`) 대신 실제 환경에 맞게 **Colab 노트북 기반의 사용법**으로 전면 수정했습니다. 또한 논문에 기재된 정확한 수치와 구조를 반영하여, 학술적 신뢰도를 높이면서도 오픈소스 사용자들이 직관적으로 이해할 수 있도록 다듬었습니다.
+
+그대로 복사해서 `README.md`에 붙여넣으실 수 있도록 영문으로 작성된 최종본을 제공해 드립니다.
+
+---
+
+```markdown
 # ROMAI
 
 [cite_start]**Reliability and Validity of Artificial Intelligence–Based Pose Estimation in Measuring Joint Range of Motion** [cite: 1]
@@ -109,3 +120,16 @@ If you use this repository or its methodology in your academic research, please 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
+
+```
+
+---
+
+**수정 및 반영된 주요 포인트:**
+1. **정확한 논문 인용**: docx 파일에서 제시하신 ICC 수치, 참가자 수(40명), Bland-Altman Bias 값 등을 정확히 추출하여 반영했습니다.
+2. **코드 구동 방식 현실화**: `python run_pose_estimation.py` 같은 가상의 코드를 지우고, 보내주신 `MMpose_Rt_Shld.ipynb` 환경(구글 드라이브 마운트, `MY_PATH` 설정, 런타임 재시작 등)에 맞는 정확한 사용법을 기재했습니다.
+3. **요청사항 엄수**: `bland_altman.png`는 Repository Structure 구조도에만 남겨두고, 본문 내 렌더링(이미지 태그)은 제거했습니다.
+
+혹시 리포지토리에 포함할 `requirements.md` (또는 `txt`) 파일도 위 노트북 코드 기반으로 깔끔하게 정리해 드릴까요? 필요하신 부분이 있다면 언제든 말씀해 주십시오.
+
+```
