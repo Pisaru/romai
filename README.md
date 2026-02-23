@@ -25,27 +25,23 @@ Target applications:
 
 ### Pose Estimation + Angle Overlay
 
-(Short demo placed in `docs/`)
+Short demo preview is placed in `docs/demo.gif`. If you prefer a video file, `docs/demo.mp4` may be used and linked in this README.
 
-If you want an animated preview inside README, use a short GIF (`docs/demo.gif`). If you uploaded a short MP4 instead, link to it from README or use the GIF thumbnail approach.
-
-Embedded preview (if you keep `docs/demo.gif`):
-
+Embedded preview (if `docs/demo.gif` exists):
 
 ![ROMAI Demo](docs/demo.gif)
-
 
 Full demonstration video (hosted):
 [Watch Full Demo on YouTube](https://youtu.be/LVpVHAe3rAk)
 
 ## Validation Results
 
-The validation study and numerical results are summarized below (detailed methods and statistics in the manuscript and `작업중.pdf`). 
+The validation summaries below reflect the core results used to evaluate ROMAI. They present the main reliability and agreement metrics versus the universal goniometer and a consumer IMU system.
 
-### Sample & General Metrics
+### Sample & Protocol
 
 * Sample: healthy adults, n = 40
-* Protocol: each movement repeated 3 times (end-range hold 3 s); simultaneous measurements with universal goniometer, IMU, and video
+* Protocol: each movement repeated 3 times (end-range hold 3 s); simultaneous measurements with universal goniometer (reference), IMU, and video-based ROMAI.
 
 ### Within-method (intra-device) reliability — Pose estimation (ICC₂,₃)
 
@@ -55,24 +51,26 @@ The validation study and numerical results are summarized below (detailed method
 |        Extension |  0.984 |
 |        Abduction |  0.976 |
 
-* SEM range (pose estimation): ~0.73–1.05°
+* SEM (pose estimation): ~0.73–1.05°
 * MDC₉₅ (pose estimation): ~2.0–2.9°
 
 ### Between-method reliability (Goniometer vs Pose Estimation) — ICC₂,₁
 
-* Range: **0.812 – 0.939** (movement-dependent; highest at extension: 0.939)
-* Interpretation: overall good to excellent agreement
+* ICC₂,₁ range: **0.812 – 0.939** (movement-dependent; highest at extension: 0.939)
+* Interpretation: overall good to excellent agreement between ROMAI and the universal goniometer.
 
 ### Correlation (Goniometer vs Pose Estimation)
 
 * Pearson r range: **0.593 – 0.646** (all p < .01)
-* Interpretation: moderate to strong linear association
+* Interpretation: moderate to strong linear association.
 
-### Bland–Altman (Goniometer vs Pose Estimation) 
+### Bland–Altman (Goniometer vs Pose Estimation)
 
 * Mean difference (bias): **−1.03° to 3.32°** (movement-dependent)
-* 95% Limits of Agreement (LoA) width: approx **±10–12°**
+* 95% Limits of Agreement (LoA) width: approximately **±10–12°**
 * Interpretation: small average bias; LoA acceptable for group-level inference but individual differences may reach ±10°.
+
+Combined Bland–Altman figure (Flexion / Extension / Abduction) is available as a single image at `docs/bland_altman.png`.
 
 ![Bland–Altman figure including Flexion / Extension / Abduction](docs/bland_altman.png)
 
@@ -81,7 +79,7 @@ The validation study and numerical results are summarized below (detailed method
 * ICC₂,₁ range: **0.343 – 0.873** (movement and joint dependent)
 * Example Bland–Altman for flexion: mean difference ≈ **24.60°** (systematic discrepancy)
 * Pearson r: **0.276 – 0.449** (generally low, p < .05)
-* Interpretation: IMU and goniometer showed substantial method differences under current configuration.
+* Interpretation: IMU and goniometer showed substantial method differences under the current configuration and sensor placement.
 
 ### Regression (goniometer as reference)
 
@@ -91,9 +89,9 @@ The validation study and numerical results are summarized below (detailed method
 
 ## Interpretation (summary)
 
-* AI-based 2D pose estimation demonstrated **excellent repeatability** and **acceptable agreement** with the universal goniometer, supporting its potential utility as a clinical adjunct tool.
-* IMU-based motion capture exhibited notable discrepancies in this study, likely related to sensor placement and calibration.
-* Bland–Altman LoA (~±10–12°) suggests caution for single-subject clinical decision-making near diagnostic thresholds; apply SEM/MDC for interpretation of individual changes.
+* AI-based 2D pose estimation (ROMAI) demonstrated **excellent repeatability** and **acceptable agreement** with the universal goniometer, supporting its potential as a clinical adjunct for shoulder ROM assessment.
+* Under the tested conditions, commercial IMU motion-capture showed notable discrepancies relative to the goniometer, likely reflecting calibration and placement sensitivity.
+* Bland–Altman LoA (~±10–12°) indicate suitability for group-level analysis and monitoring; for individual clinical decisions, apply SEM/MDC thresholds.
 
 ## System Architecture
 
@@ -104,11 +102,12 @@ Pipeline workflow:
 3. Joint angle calculation via anatomical vectors (e.g., trunk vector vs humeral vector)
 4. Batch processing → per-video keypoint & angle CSVs → visualization video (optional)
 
-**Note about per-video outputs (from processing notebooks / scripts):** the analysis notebook produces per-video CSVs named like:
+**Notebook output conventions (MMpose_Rt_Shld.ipynb):**
 
-* `{video_name}_alljt.csv` — all-joints CSV (raw per-frame / per-keypoint extraction)
-* `{video_name}_rt_shld.csv` — right-shoulder processed CSV (per-video joint-angle results)
-  These are created in local result folders by the notebook (`local_alljt_csv` / `local_done_csv` variables in `MMpose_Rt_Shld.ipynb`). Keep per-video CSVs under `results/raw/` and processed CSVs under `results/processed/` (example structure below).
+* `{video_name}_alljt.csv` — framewise keypoints + raw angle computations
+* `{video_name}_rt_shld.csv` — processed per-video right-shoulder summary
+
+Place per-video CSVs in `results/raw/` and processed summaries in `results/processed/`.
 
 ## Installation (Google Colab)
 
@@ -141,7 +140,7 @@ After installation, restart the runtime.
 
 ## Usage
 
-Prepare videos in your working directory (or mount Google Drive).
+Prepare videos in your working directory or mount Google Drive.
 
 Run (example):
 
@@ -149,47 +148,40 @@ Run (example):
 python run_pose_estimation.py --input your_video.mp4 --output results/processed/
 ```
 
-Outputs (examples):
+Typical outputs:
 
 * `results/raw/{video_name}_alljt.csv` — framewise keypoints + raw angles
 * `results/processed/{video_name}_rt_shld.csv` — processed per-video right-shoulder summary
-* `results/validation_summary.csv` — joint-wise summary (if generated by scripts)
+* `results/validation_summary.csv` — joint-wise summary if generated by scripts
 * `docs/bland_altman.png` — combined Bland–Altman figure (Flexion/Extension/Abduction)
-* `docs/demo.*` — demo GIF or MP4 placed in `docs/` for README preview
+* `docs/demo.*` — demo GIF or MP4 used for README preview
 
-## Recommended Repository Structure (updated to reflect notebook outputs)
+## Recommended Repository Structure
 
 ```
 ROMAI/
 ├─ README.md
-├─ run_pose_estimation.py
-├─ requirements.txt
-├─ notebooks/
-│  └─ MMpose_Rt_Shld.ipynb         # processing & per-video CSV generation (produces *_alljt.csv, *_rt_shld.csv)
-├─ scripts/
-│  └─ validation_analysis.py       # summary statistics / Bland–Altman / ICC generation
+├─ MMpose_Rt_Shld.ipynb
+├─ requirements.md
+├─ LICENSE
+├─ .gitignore
 ├─ docs/
-│  ├─ demo.gif  (or demo.mp4)      # short preview/gif or video for README
-│  └─ bland_altman.png             # combined 3-panel Bland–Altman figure (flex/ext/abd)
-├─ results/
-│  ├─ raw/                         # per-video raw CSVs (e.g., {video}_alljt.csv)
-│  └─ processed/                   # per-video processed CSVs (e.g., {video}_rt_shld.csv)
-└─ data/                           # if sharing small sample videos or anonymized examples
+│  ├─ demo.gif
+│  └─ bland_altman.png
 ```
 
-* Keep the single `docs/bland_altman.png` (combined figure) as you have now — README references that single file.
-* Per-video CSV naming follows the notebook conventions (`{video_name}_alljt.csv`, `{video_name}_rt_shld.csv`): place them under `results/raw/` and `results/processed/` respectively.
+(Optionally add `scripts/` and `results/` if you will share analysis scripts and CSV outputs.)
 
 ## Reproducibility & Materials
 
-* Include raw per-subject CSVs (reference goniometer / IMU / ROMAI) and the statistical analysis scripts used to compute ICC, Pearson r, MAE/RMSE, and Bland–Altman plots (`scripts/validation_analysis.py`).
-* Document camera settings, participant clothing, IMU placement, and preprocessing steps in `METHODS.md`. The study methods and stats are available in the working manuscript (see `작업중.pdf`). 
+* Include raw per-subject CSVs and an analysis script (`scripts/validation_analysis.py`) if you want exact reproducibility for ICC/Bland–Altman/regression outputs.
+* Do not include manuscript drafts (e.g., `작업중.pdf`) in the public README; keep them private if needed for submission.
 
 ## Limitations
 
-* Sample limited to healthy adults; generalization to older or pathological populations is not guaranteed.
-* 2D video-based methods are sensitive to camera angle and occlusion.
-* LoA breadth indicates careful interpretation for individual clinical decisions.
+* Sample limited to healthy adults; external validation in clinical populations required.
+* 2D methods are sensitive to camera angle and occlusion.
+* LoA breadth requires SEM/MDC-informed interpretation for single-subject decisions.
 
 ## Citation
 
@@ -204,5 +196,3 @@ Author(s). Reliability and Validity of Artificial Intelligence–Based Pose Esti
 ## License
 
 MIT License
-
----
