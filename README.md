@@ -84,11 +84,9 @@ MY_PATH = "sample_img/action_video"
 If you use this repository or its methodology in your academic research, please cite:
 
 ```text
-Author(s). Reliability and Validity of Artificial Intelligence–Based Pose Estimation in Measuring Joint Range of Motion. [Journal Name]. [Year].
+TBA
 
 ```
-
-*(Please replace with final publication details and DOI when available.)*
 
 ## License
 
