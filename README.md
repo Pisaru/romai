@@ -27,9 +27,7 @@ Target applications:
 
 (Insert short GIF in `docs/demo.gif`)
 
-```markdown
 ![ROMAI Demo](docs/demo.gif)
-```
 
 Full demonstration video:
 [Watch Full Demo on YouTube](https://youtu.be/LVpVHAe3rAk)
