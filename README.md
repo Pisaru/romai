@@ -25,14 +25,12 @@ Target applications:
 
 ### Pose Estimation + Angle Overlay
 
-Short demo preview is placed in `docs/demo.gif`. If you prefer a video file, `docs/demo.mp4` may be used and linked in this README.
-
-Embedded preview (if `docs/demo.gif` exists):
+Short demo preview is placed in `docs/demo.gif`. If you prefer a video file, please click the link below.
 
 ![ROMAI Demo](docs/demo.gif)
 
-Full demonstration video (hosted):
-[Watch Full Demo on YouTube](https://youtu.be/LVpVHAe3rAk)
+Sample video (hosted):
+[Demo on YouTube](https://youtu.be/LVpVHAe3rAk)
 
 ## Validation Results
 
@@ -69,10 +67,6 @@ The validation summaries below reflect the core results used to evaluate ROMAI. 
 * Mean difference (bias): **−1.03° to 3.32°** (movement-dependent)
 * 95% Limits of Agreement (LoA) width: approximately **±10–12°**
 * Interpretation: small average bias; LoA acceptable for group-level inference but individual differences may reach ±10°.
-
-Combined Bland–Altman figure (Flexion / Extension / Abduction) is available as a single image at `docs/bland_altman.png`.
-
-![Bland–Altman figure including Flexion / Extension / Abduction](docs/bland_altman.png)
 
 ### Goniometer vs IMU (summary)
 
@@ -175,7 +169,6 @@ ROMAI/
 ## Reproducibility & Materials
 
 * Include raw per-subject CSVs and an analysis script (`scripts/validation_analysis.py`) if you want exact reproducibility for ICC/Bland–Altman/regression outputs.
-* Do not include manuscript drafts (e.g., `작업중.pdf`) in the public README; keep them private if needed for submission.
 
 ## Limitations
 
