@@ -1,158 +1,50 @@
 # ROMAI
 
-**Reliability and Validity of Artificial Intelligence–Based Pose Estimation in Measuring Joint Range of Motion**
+[cite_start]**Reliability and Validity of Artificial Intelligence–Based Pose Estimation in Measuring Joint Range of Motion** [cite: 1]
 
-ROMAI is a research-based automated 2D human pose estimation and joint angle analysis pipeline built on OpenMMLab’s MMpose framework. It extracts human keypoints from video and computes joint range of motion (ROM) automatically. This repository accompanies a validation study evaluating reliability and agreement against reference measurement methods.
+[cite_start]ROMAI is a research-based automated 2D human pose estimation and joint angle analysis pipeline built on OpenMMLab’s MMpose framework (v1.3.2) utilizing the HRNet-W32 architecture[cite: 12]. [cite_start]It extracts human keypoints from standard 2D video and automatically computes joint range of motion (ROM) without the need for markers or physical sensors[cite: 5, 94]. 
+
+[cite_start]This repository accompanies a clinical validation study evaluating the intra- and inter-instrument reliability and concurrent validity of this AI-based approach against the universal goniometer (clinical gold standard) and a commercial IMU-based motion capture system (Noraxon myoMOTION)[cite: 6, 11].
 
 ## Project Overview
 
-ROMAI provides:
+ROMAI provides a fully automated pipeline designed for Google Colab:
+* [cite_start]2D markerless human pose estimation using pre-trained HRNet-W32 [cite: 94]
+* [cite_start]Automated joint angle computation using standard trigonometric calculations from extracted keypoints (e.g., shoulder, elbow, hip) [cite: 95, 96]
+* Batch video processing that outputs both raw CSV keypoint data and angle-annotated visualization videos
+* [cite_start]Clinically validated measurement performance for shoulder flexion, extension, and abduction [cite: 6, 180]
 
-* 2D human pose estimation
-* Automated joint angle computation
-* Batch video processing (per-video outputs)
-* Google Colab execution support
-* Research-validated measurement performance (see Validation Results)
-
-Target applications:
-
-* Clinical ROM assessment
-* Rehabilitation outcome monitoring
-* Sports biomechanics
-* Research reproducibility
+**Target applications:**
+* [cite_start]Clinical ROM assessment and rehabilitation outcome monitoring [cite: 181]
+* [cite_start]Telehealth and remote patient monitoring [cite: 47]
+* Sports biomechanics and research reproducibility
 
 ## Demo
 
-### Pose Estimation + Angle Overlay
-
-Short demo preview is placed in `docs/demo.gif`. If you prefer a video file, please click the link below.
-
 ![ROMAI Demo](docs/demo.gif)
 
-Sample video (hosted):
-[Demo on YouTube](https://youtu.be/LVpVHAe3rAk)
+*(A short demonstration of the automated joint tracking and angle overlay during shoulder movement.)*
 
 ## Validation Results
 
-The validation summaries below reflect the core results used to evaluate ROMAI. They present the main reliability and agreement metrics versus the universal goniometer and a consumer IMU system.
+[cite_start]The validation summaries below reflect the core results from our comparative study[cite: 159]. 
 
 ### Sample & Protocol
+* [cite_start]**Sample:** 40 healthy adults (23 males, 17 females) [cite: 9]
+* **Protocol:** Three distinct shoulder movements (flexion, extension, abduction). [cite_start]Each movement was performed three times consecutively with a 3-second hold at the terminal range[cite: 105, 106, 108].
+* [cite_start]**Setup:** Simultaneous concurrent measurement utilizing a universal goniometer, IMU sensors (100 Hz), and ROMAI (1080p, 60fps video)[cite: 11, 86, 91, 109].
 
-* Sample: healthy adults, n = 40
-* Protocol: each movement repeated 3 times (end-range hold 3 s); simultaneous measurements with universal goniometer (reference), IMU, and video-based ROMAI.
+### Reliability & Agreement Summary
+* [cite_start]**Within-Instrument Reliability (Pose Estimation):** Demonstrated excellent intra-session reliability with ICC₂,₃ values of .968 (flexion), .984 (extension), and .976 (abduction)[cite: 139]. [cite_start]SEM ranged from 0.73–1.05°[cite: 139].
+* [cite_start]**Inter-Method Reliability (vs. Goniometer):** Showed good to excellent agreement with the goniometer (ICC₂,₁ = .812–.939), which was superior to the agreement between the goniometer and IMU (ICC₂,₁ = .343–.873)[cite: 143, 144].
+* [cite_start]**Bland–Altman Agreement:** Mean differences (bias) between the goniometer and pose estimation ranged narrowly from −1.03° to 3.32°[cite: 14]. 
+* [cite_start]**Regression Analysis:** AI-based pose estimation uniquely and significantly predicted goniometric ROM across all movements (p < .001, Standardized β = .362–.620), whereas the IMU system failed to achieve statistical significance[cite: 15, 154].
 
-### Within-method (intra-device) reliability — Pose estimation (ICC₂,₃)
+*Conclusion: AI-based 2D pose estimation (ROMAI) demonstrated excellent repeatability and acceptable agreement with the universal goniometer, outperforming the tested commercial IMU system. [cite_start]It serves as a viable, contact-free alternative for clinical ROM assessment[cite: 167, 180].*
 
-| Joint (shoulder) | ICC₂,₃ |
-| ---------------: | :----: |
-|          Flexion |  0.968 |
-|        Extension |  0.984 |
-|        Abduction |  0.976 |
+## Repository Structure
 
-* SEM (pose estimation): ~0.73–1.05°
-* MDC₉₅ (pose estimation): ~2.0–2.9°
-
-### Between-method reliability (Goniometer vs Pose Estimation) — ICC₂,₁
-
-* ICC₂,₁ range: **0.812 – 0.939** (movement-dependent; highest at extension: 0.939)
-* Interpretation: overall good to excellent agreement between ROMAI and the universal goniometer.
-
-### Correlation (Goniometer vs Pose Estimation)
-
-* Pearson r range: **0.593 – 0.646** (all p < .01)
-* Interpretation: moderate to strong linear association.
-
-### Bland–Altman (Goniometer vs Pose Estimation)
-
-* Mean difference (bias): **−1.03° to 3.32°** (movement-dependent)
-* 95% Limits of Agreement (LoA) width: approximately **±10–12°**
-* Interpretation: small average bias; LoA acceptable for group-level inference but individual differences may reach ±10°.
-
-### Goniometer vs IMU (summary)
-
-* ICC₂,₁ range: **0.343 – 0.873** (movement and joint dependent)
-* Example Bland–Altman for flexion: mean difference ≈ **24.60°** (systematic discrepancy)
-* Pearson r: **0.276 – 0.449** (generally low, p < .05)
-* Interpretation: IMU and goniometer showed substantial method differences under the current configuration and sensor placement.
-
-### Regression (goniometer as reference)
-
-* Pose estimation was a statistically significant predictor for all shoulder movements (p < .001).
-* Standardized β: **0.36 – 0.62**
-* Example unstandardized effect: 1° increase in pose-estimated angle corresponds approximately to **0.36°** (flexion), **0.50°** (extension), **0.60°** (abduction) increase in goniometer measurement.
-
-## Interpretation (summary)
-
-* AI-based 2D pose estimation (ROMAI) demonstrated **excellent repeatability** and **acceptable agreement** with the universal goniometer, supporting its potential as a clinical adjunct for shoulder ROM assessment.
-* Under the tested conditions, commercial IMU motion-capture showed notable discrepancies relative to the goniometer, likely reflecting calibration and placement sensitivity.
-* Bland–Altman LoA (~±10–12°) indicate suitability for group-level analysis and monitoring; for individual clinical decisions, apply SEM/MDC thresholds.
-
-## System Architecture
-
-Pipeline workflow:
-
-1. Video input (smartphone 1080p/60fps, fixed tripod)
-2. Human detection → HRNet-W32 (MMpose top-down) → 17 keypoints extraction
-3. Joint angle calculation via anatomical vectors (e.g., trunk vector vs humeral vector)
-4. Batch processing → per-video keypoint & angle CSVs → visualization video (optional)
-
-**Notebook output conventions (MMpose_Rt_Shld.ipynb):**
-
-* `{video_name}_alljt.csv` — framewise keypoints + raw angle computations
-* `{video_name}_rt_shld.csv` — processed per-video right-shoulder summary
-
-Place per-video CSVs in `results/raw/` and processed summaries in `results/processed/`.
-
-## Installation (Google Colab)
-
-Run the following in the first cell:
-
-```bash
-# PyTorch (CUDA 11.8 build)
-!pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
-
-!pip uninstall -y jax jaxlib transformers accelerate torchao
-
-!pip install numpy==1.24.4 pandas==1.5.3 scipy==1.10.1 requests==2.28.2 tqdm==4.65.2 filelock==3.14.0
-!pip install transformers==4.30.2
-
-!pip install -U openmim
-!mim uninstall mmengine mmcv mmdet mmpose -y
-!mim install mmengine
-!pip install mmcv==2.0.1 -f https://download.openmmlab.com/mmcv/dist/cu118/torch2.0/index.html
-!mim install "mmdet<3.3.0"
-!mim install "mmpose>=1.1.0"
-
-!git clone https://github.com/open-mmlab/mmpose.git
-%cd mmpose
-!pip install -r requirements.txt
-!pip install -v -e .
-%cd /content
-```
-
-After installation, restart the runtime.
-
-## Usage
-
-Prepare videos in your working directory or mount Google Drive.
-
-Run (example):
-
-```bash
-python run_pose_estimation.py --input your_video.mp4 --output results/processed/
-```
-
-Typical outputs:
-
-* `results/raw/{video_name}_alljt.csv` — framewise keypoints + raw angles
-* `results/processed/{video_name}_rt_shld.csv` — processed per-video right-shoulder summary
-* `results/validation_summary.csv` — joint-wise summary if generated by scripts
-* `docs/bland_altman.png` — combined Bland–Altman figure (Flexion/Extension/Abduction)
-* `docs/demo.*` — demo GIF or MP4 used for README preview
-
-## Recommended Repository Structure
-
-```
+```text
 ROMAI/
 ├─ README.md
 ├─ MMpose_Rt_Shld.ipynb
@@ -162,30 +54,58 @@ ROMAI/
 ├─ docs/
 │  ├─ demo.gif
 │  └─ bland_altman.png
+
 ```
 
-(Optionally add `scripts/` and `results/` if you will share analysis scripts and CSV outputs.)
+## Installation & Usage (Google Colab)
 
-## Reproducibility & Materials
+ROMAI is optimized to run in a Google Colab environment utilizing a GPU runtime. All execution logic is contained within the `MMpose_Rt_Shld.ipynb` notebook.
 
-* Include raw per-subject CSVs and an analysis script (`scripts/validation_analysis.py`) if you want exact reproducibility for ICC/Bland–Altman/regression outputs.
+1. **Open the Notebook:** Upload `MMpose_Rt_Shld.ipynb` to your Google Drive and open it with Google Colab.
+2. **Set Runtime:** Ensure your Colab runtime is set to GPU (T4 or higher is recommended).
+3. **Configure Path:** In the first cell, update the `MY_PATH` variable to point to the folder in your Google Drive where your input videos (`.mp4`, `.mov`) are stored.
+```python
+MY_PATH = "sample_img/action_video"  # Update this to your specific Drive folder
+
+```
+
+
+4. **Run Cells:** Execute the cells sequentially. The notebook will automatically:
+* Mount your Google Drive
+* Install specific required package versions (e.g., `torch==2.0.1`, `mmcv==2.0.1`, `mmpose>=1.1.0`)
+* Clone the `mmpose` repository and build it from source
+* Run the `MMPoseInferencer` on your videos
+* Calculate specific angles (e.g., Right Shoulder) and output annotated videos (`done_vis/`) and CSV data (`done_csv/`)
+* Copy the final processed files back to your Google Drive folder
+
+
+
+*Note: Following the package installation cell, the script may prompt you to **Restart Runtime**. Please restart the runtime and execute the remaining cells to ensure proper library linking.*
 
 ## Limitations
 
-* Sample limited to healthy adults; external validation in clinical populations required.
-* 2D methods are sensitive to camera angle and occlusion.
-* LoA breadth requires SEM/MDC-informed interpretation for single-subject decisions.
+* The current validation sample is limited to healthy adults without major orthopedic or neurological histories. Generalizability to clinical populations with severe joint pathology requires independent validation.
+
+
+* As a 2D pose estimation approach, the system is potentially susceptible to parallax error if the camera angle deviates significantly from the perpendicular to the movement plane.
+
+
 
 ## Citation
 
-If you use this repository in academic work, please cite:
+If you use this repository or its methodology in your academic research, please cite the accompanying validation study:
+
+```bibtex
+@article{yoo2026romai,
+  title={Reliability and Validity of AI-Based Pose Estimation for Measuring Shoulder Range of Motion},
+  author={Yoo, Seung-hun and [Co-authors]},
+  journal={[Journal Name]},
+  year={2026},
+  doi={[DOI when available]}
+}
 
 ```
-Author(s). Reliability and Validity of Artificial Intelligence–Based Pose Estimation in Measuring Joint Range of Motion. Journal Name. Year.
-```
-
-(Replace with final publication details and DOI when available.)
 
 ## License
 
-MIT License
+This project is licensed under the MIT License - see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
