@@ -50,10 +50,9 @@ Full demonstration video:
 
 | Joint              | ICC (2,1) | Pearson r | MAE (°) | RMSE (°) |
 | ------------------ | --------- | --------- | ------- | -------- |
-| Shoulder Flexion   | 0.94      | 0.96      | 3.2     | 4.1      |
-| Shoulder Abduction | 0.92      | 0.95      | 3.8     | 4.7      |
-| Elbow Flexion      | 0.96      | 0.97      | 2.6     | 3.3      |
-
+| Shoulder Flexion   | {shoulder_flexion_icc} | {shoulder_flexion_r} | {shoulder_flexion_mae} | {shoulder_flexion_rmse} |
+| Shoulder Abduction | {shoulder_abduction_icc} | {shoulder_abduction_r} | {shoulder_abduction_mae} | {shoulder_abduction_rmse} |
+| Elbow Flexion      | {elbow_flexion_icc} | {elbow_flexion_r} | {elbow_flexion_mae} | {elbow_flexion_rmse} |
 Interpretation:
 
 • Excellent reliability (ICC > 0.90)
