@@ -6,11 +6,13 @@ This repository accompanies a clinical validation study evaluating the intra- an
 
 ## Project Overview
 
-ROMAI provides a fully automated pipeline optimized for Google Colab:
-* 2D markerless human pose estimation using pre-trained HRNet-W32
+This repository presents an academic project implementing a real-time joint angle measurement pipeline based on MMPOSE.
+
+The pipeline is optimized for use in Google Colab and includes:
+* 2D markerless human pose estimation using a pre-trained HRNet-W32 model
 * Automated joint angle computation from extracted keypoints
-* Batch video processing outputting raw CSV keypoint data and angle-annotated videos
-* Clinically validated measurement performance for shoulder ROM (flexion, extension, abduction)
+* Batch video processing that outputs raw CSV keypoint data and angle-annotated videos
+* Experimental evaluation for shoulder range of motion (ROM) (flexion, extension, abduction)
 
 ## Demo
 
@@ -20,7 +22,7 @@ ROMAI provides a fully automated pipeline optimized for Google Colab:
 
 ## Validation Results (Summary)
 
-The following metrics are based on our comparative study of 40 healthy adults (23 males, 17 females), evaluating shoulder movements with a 3-second terminal hold.
+Measurement performance is based on a comparative study of 40 healthy adults (23 males, 17 females). Shoulder movements were evaluated with a 3-second terminal hold.
 
 * **Within-Instrument Reliability (AI Pose Estimation):** * Excellent intra-session reliability across movements.
   * ICC: .887 – .991
@@ -30,7 +32,7 @@ The following metrics are based on our comparative study of 40 healthy adults (2
   * Bland–Altman mean bias ranged from −1.03° to 3.32°.
 * **Concurrent Validity:** AI-based pose estimation significantly predicted goniometric ROM across all tested movements (p < .001, Standardized β = .36 – .62).
 
-*Conclusion: The ROMAI pipeline demonstrated excellent repeatability and acceptable clinical agreement with the universal goniometer, positioning it as a viable, contact-free tool for objective ROM assessment.*
+*The proposed MMPOSE-based pipeline demonstrated high repeatability and acceptable agreement with a universal goniometer, suggesting its potential utility as a contact-free method for objective shoulder ROM assessment in research and clinical contexts.*
 
 ## Repository Structure
 
