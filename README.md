@@ -1,4 +1,4 @@
-**Reliability and Validity of Artificial Intelligence–Based Pose Estimation in Measuring Joint Range of Motion**
+# **Reliability and Validity of Artificial Intelligence–Based Pose Estimation in Measuring Joint Range of Motion**
 
 This repository provides an adapted 2D human pose estimation and joint angle analysis pipeline based on OpenMMLab’s MMpose framework (v1.3.2; an open-source toolbox for pose estimation using deep learning models such as PyTorch) with the HRNet-W32 architecture, refined for clinical validation. It extracts human keypoints from standard 2D video and automatically computes joint range of motion (ROM).
 
