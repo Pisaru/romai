@@ -1,8 +1,6 @@
-# ROMAI
-
 **Reliability and Validity of Artificial Intelligence–Based Pose Estimation in Measuring Joint Range of Motion**
 
-ROMAI is a research-based automated 2D human pose estimation and joint angle analysis pipeline built on OpenMMLab’s MMpose framework (v1.3.2) utilizing the HRNet-W32 architecture. It extracts human keypoints from standard 2D video and automatically computes joint range of motion (ROM). 
+This repository provides an adapted 2D human pose estimation and joint angle analysis pipeline based on OpenMMLab’s MMpose framework (v1.3.2; an open-source toolbox for pose estimation using deep learning models such as PyTorch) with the HRNet-W32 architecture, refined for clinical validation. It extracts human keypoints from standard 2D video and automatically computes joint range of motion (ROM).
 
 This repository accompanies a clinical validation study evaluating the intra- and inter-instrument reliability and concurrent validity of this AI-based approach against the universal goniometer (clinical gold standard) and a commercial IMU-based motion capture system (Noraxon myoMOTION).
 
